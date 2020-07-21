@@ -2,7 +2,7 @@
 
 // Изменение цвета мантии, цвета глаз, цвета фаерболов персонажа по нажатию
 
-window.setupcustom = (function () {
+(function () {
   var userDialog = document.querySelector('.setup');
   var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
   var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');

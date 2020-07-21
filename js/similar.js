@@ -2,51 +2,59 @@
 
 // список похожих магов в окне настройки персонажа
 
-window.similar = (function () {
-// функция создания массива из случайных элементов
-  var getWizardsArr = function () {
-    var wizards = [];
-    var MAX_WIZARDS = 4;
-    for (var i = 0; i < MAX_WIZARDS; i++) {
-      wizards.push({
-        name: window.util.getRandomElementFromArr(window.data.WIZARD_FIRST_NAMES) + ' ' + window.util.getRandomElementFromArr(window.data.WIZARD_LAST_NAMES),
-        coatColor: window.util.getRandomElementFromArr(window.data.WIZARD_COAT_COLORS),
-        eyesColor: window.util.getRandomElementFromArr(window.data.WIZARD_EYE_COLORS)
-      });
-    }
-
-    return wizards;
-  };
+(function () {
+  var MAX_WIZARDS = 4;
 
   // функция создания DOM-элемента на основе JS-объекта
   var userDialog = document.querySelector('.setup');
+  var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+  var similarListElement = document.querySelector('.setup-similar-list');
 
   var renderWizard = function (wizard) {
-    var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
     var wizardElement = similarWizardTemplate.cloneNode(true);
 
     wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-    wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
+    wizardElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
     wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
 
     return wizardElement;
   };
 
   // функция заполнения блока DOM-элементами на основе массива JS-объектов
-  var appendWizards = function () {
+  var successHandler = function (wizards) {
     var fragment = document.createDocumentFragment();
-    var similarListElement = document.querySelector('.setup-similar-list');
-    var wizards = getWizardsArr();
 
-    for (var i = 0; i < wizards.length; i++) {
+    for (var i = 0; i < MAX_WIZARDS; i++) {
       fragment.appendChild(renderWizard(wizards[i]));
     }
-
     similarListElement.appendChild(fragment);
+    // показать список похожих персонажей
+    userDialog.querySelector('.setup-similar').classList.remove('hidden');
   };
 
-  // показать список похожих персонажей
-  userDialog.querySelector('.setup-similar').classList.remove('hidden');
+  var errorHandler = function (errorMessage) {
+    var element = document.createElement('div');
+    element.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    element.style.position = 'absolute';
+    element.style.left = 0;
+    element.style.right = 0;
+    element.style.fontSize = '30px';
 
-  appendWizards();
+    element.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', element);
+  };
+
+  window.backend.load(successHandler, errorHandler);
+
+  var form = userDialog.querySelector('.setup-wizard-form');
+
+  // Отменяет действие формы по умолчанию и отправляет данные на сервер, при успешной загрузке данных закрывает окно редактирования персонажа
+
+  var submitHandler = function (evt) {
+    window.backend.save(new FormData(form), function () {
+      userDialog.classList.add('hidden');
+    });
+    evt.preventDefault();
+  };
+  form.addEventListener('submit', submitHandler);
 })();

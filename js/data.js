@@ -2,29 +2,7 @@
 // Создание массива, состоящего из 4-х сгенерированных JS объектов, которые описывают похожих персонажей
 // список похожих магов в окне настройки персонажа
 
-window.data = (function () {
-
-  var WIZARD_FIRST_NAMES = [
-    'Иван',
-    'Хуан Себастьян',
-    'Мария',
-    'Кристоф',
-    'Виктор',
-    'Юлия',
-    'Люпита',
-    'Вашингтон'
-  ];
-
-  var WIZARD_LAST_NAMES = [
-    'да Марья',
-    'Верон',
-    'Мирабелла',
-    'Вальц',
-    'Онопко',
-    'Топольницкая',
-    'Нионго',
-    'Ирвинг'
-  ];
+(function () {
 
   var WIZARD_COAT_COLORS = [
     'rgb(101, 137, 164)',
@@ -51,9 +29,7 @@ window.data = (function () {
     '#e6e848'
   ];
 
-  return {
-    WIZARD_FIRST_NAMES: WIZARD_FIRST_NAMES,
-    WIZARD_LAST_NAMES: WIZARD_LAST_NAMES,
+  window.data = {
     WIZARD_COAT_COLORS: WIZARD_COAT_COLORS,
     WIZARD_EYE_COLORS: WIZARD_EYE_COLORS,
     FIREBALL_COLORS: FIREBALL_COLORS,

@@ -1,5 +1,6 @@
 'use strict';
-window.move = (function () {
+
+(function () {
 
   var setupDialogElement = document.querySelector('.setup');
   var dialogHandle = setupDialogElement.querySelector('.upload');
@@ -14,7 +15,7 @@ window.move = (function () {
 
     var dragged = false;
 
-    var onMouseMove = function (moveEvt) {
+    var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
       dragged = true;
@@ -34,23 +35,23 @@ window.move = (function () {
 
     };
 
-    var onMouseUp = function (upEvt) {
+    var mouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
 
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
 
       if (dragged) {
-        var onClickPreventDefault = function (clickEvt) {
+        var clickPreventDefaultHandler = function (clickEvt) {
           clickEvt.preventDefault();
-          dialogHandle.removeEventListener('click', onClickPreventDefault);
+          dialogHandle.removeEventListener('click', clickPreventDefaultHandler);
         };
-        dialogHandle.addEventListener('click', onClickPreventDefault);
+        dialogHandle.addEventListener('click', clickPreventDefaultHandler);
       }
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
   });
 
 })();

@@ -2,7 +2,7 @@
 
 // Открытие/закрытие окна настройки персонажа
 
-window.dialog = (function () {
+(function () {
   var userDialog = document.querySelector('.setup');
   var setupOpen = document.querySelector('.setup-open');
   var userNameInput = userDialog.querySelector('.setup-user-name');
